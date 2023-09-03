@@ -12,6 +12,7 @@ const otherSpinnParent = document.querySelector(".spinnOuter");
 let data = "";
 searchContainer.classList.add("d-none");
 
+// الفانكشن المسؤوله عن جلب الداتا  المختلفه لكل التطبيق
 async function getAll(apiLink, word) {
   try {
     toggleSpin();
@@ -19,44 +20,84 @@ async function getAll(apiLink, word) {
     data = await res.json();
     return data[`${word}`];
   } catch (err) {
-    console.log(err);
+    console.log(`faild to fetch Data ! api problem ${err}`);
   } finally {
+    console.log("iam before finally");
     toggleSpin();
   }
 }
+// الفانكشن المسؤوله عن جلب الداتا  المختلفه لكل التطبيق
+
+// the loading screen //
 function toggleOtherSpin() {
   otherSpinnParent.classList.toggle("d-none");
 }
 function toggleSpin() {
   spinnParent.classList.toggle("d-none");
 }
+// the loading screen //
+
+//side nav bar الفانكشنز المسؤوله عن ال
+let navTabs = $(".sidebar-nav .navbar-tabs").outerWidth();
+
 $(window).on("load", () => {
-  $(".navbar-tabs")
-    .animate({ width: "toggle" })
-    .toggleClass("d-flex")
-    .toggleClass("p-4");
+  $(".sidebar-nav").animate(
+    {
+      left: -navTabs,
+    },
+    500
+  );
+
+  $(".siteLink li").animate({ top: 300 }, 500);
 });
-// side bar animation
-$(".showMenu").on("click", () => {
-  $(".navbar-tabs")
-    .animate({ width: "toggle" })
-    .toggleClass("d-flex")
-    .toggleClass("p-4");
-});
+
+function closeSideNav() {
+  let navTabs = $(".sidebar-nav .navbar-tabs").outerWidth();
+  $(".sidebar-nav").animate(
+    {
+      left: -navTabs,
+    },
+    500
+  );
+  $(".closeMenu").addClass("d-none");
+  $(".showMenu").removeClass("d-none");
+  $(".siteLink li").animate({ top: 300 }, 400);
+}
+
+function openSideNav() {
+  $(".sidebar-nav").animate(
+    {
+      left: 0,
+    },
+    500
+  );
+  $(".showMenu").addClass("d-none");
+  $(".closeMenu").removeClass("d-none");
+
+  for (let i = 0; i < 5; i++) {
+    $(".siteLink li")
+      .eq(i)
+      .animate(
+        {
+          top: 0,
+        },
+        (i + 5) * 120
+      );
+  }
+}
+
+document.querySelector(".showMenu").addEventListener("click", openSideNav);
+document.querySelector(".closeMenu").addEventListener("click", closeSideNav);
 
 let allNavTabs = document.querySelectorAll(".siteLink li a");
 
 allNavTabs.forEach((tab) => {
-  tab.addEventListener("click", () => {
-    $(".navbar-tabs")
-      .animate({ width: "toggle" })
-      .toggleClass("d-flex")
-      .toggleClass("p-4");
-  });
+  tab.addEventListener("click", closeSideNav);
 });
-// side bar animation
 
-//* meals *//
+//side nav bar الفانكشنز المسؤوله عن ال
+
+//! الفانكشن التى تجلب الوجبات الافتراضيه الاوليه *//
 async function displayMeals() {
   let getMeals = await getAll(
     `https://www.themealdb.com/api/json/v1/1/search.php?s=`,
@@ -89,6 +130,7 @@ async function displayMeals() {
   getDetailsById(getMeals);
 }
 
+//!  الفانكشن المسؤوله عن اظهار حقول التسجيل وتأكيد المدخلات
 function displayContact() {
   searchContainer.classList.add("d-none");
 
@@ -147,10 +189,9 @@ function testInputs() {
   let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/g;
   let phonePattern = /^\d{10,11}$/gi;
 
-  // let nameInput = document.querySelector(".name");
-  // let nameAlert = document.querySelector(".name +div");
   let allInputs = document.getElementsByName("inputs");
   let allAlerts = document.querySelectorAll(".alert");
+
   allAlerts.forEach((alert) => {
     if (alert.classList.contains("d-block")) {
       document.getElementById("inputsSubmit").classList.remove("disabled");
@@ -243,7 +284,9 @@ function testInputs() {
     });
   });
 }
+//!  الفانكشن المسؤوله عن اظهار حقول التسجيل وتأكيد المدخلات
 
+//! الفانكشن المسؤوله عن عرض الاقسام
 async function displayCatergory() {
   searchContainer.classList.add("d-none");
 
@@ -283,6 +326,8 @@ async function displayCatergory() {
   }
   dataContainer.innerHTML = cartona;
 }
+
+//! الفانكشن المسؤوله عن عرض وجبات الدول المختلفه
 async function displayArea() {
   searchContainer.classList.add("d-none");
 
@@ -304,6 +349,8 @@ async function displayArea() {
     dataContainer.innerHTML = cartona;
   }
 }
+
+//! الفانكشن المسؤوله عن عرض المكونات الرئيسيه
 async function displayIngrediants() {
   searchContainer.classList.add("d-none");
   let getIngrediants = await getAll(
@@ -336,6 +383,7 @@ async function displayIngrediants() {
   dataContainer.innerHTML = cartona;
 }
 
+//! الفانكشن المسؤوله عن البحث
 async function displaySearch() {
   searchContainer.classList.remove("d-none");
 
@@ -374,7 +422,7 @@ async function displaySearch() {
 
 function searchName() {
   let searchNameINput = document.getElementById("searchbyName");
-  searchNameINput.addEventListener("input", (e) => {
+  searchNameINput.addEventListener("keyup", (e) => {
     filterData(
       "https://www.themealdb.com/api/json/v1/1/search.php?s=",
       `${e.target.value}`
@@ -385,7 +433,7 @@ function searchLetter() {
   let searchLetterINput = document.getElementById("searchbyLetter");
   searchLetterINput.setAttribute("maxlength", "1");
 
-  searchLetterINput.addEventListener("input", function (e) {
+  searchLetterINput.addEventListener("keyup", function (e) {
     filterData(
       "https://www.themealdb.com/api/json/v1/1/search.php?f=",
       `${e.target.value}`
@@ -393,8 +441,8 @@ function searchLetter() {
   });
 }
 
+//! id عرض تفاصيل الوجبه المختاره من خلال ال
 async function filterData(apiLink, strArea) {
-  console.log(strArea);
   let getData = await getAll(
     `${apiLink}${strArea == "" ? "m" : strArea}`,
     "meals"
@@ -441,7 +489,7 @@ async function searchById(getData, i) {
   return data[0];
 }
 
-//ونظهر الداتا الجديده idفبنضطر نبحث من خلال ال  mealsDetails لان الاوبجكت مش بيبقى فيه الداتا المطلوب ل
+//! بتفرق ما بين الوجبات اللى بتظهر مقادير وبين الوجبات اللى فيها المكونات
 function getDetailsById(getMeals) {
   let meals = document.getElementsByName("meals");
 
@@ -468,7 +516,13 @@ function getDetailsById(getMeals) {
   }
 }
 
+//! id عرض تفاصيل الوجبه المختاره من خلال ال
+
+//ونظهر الداتا الجديده idفبنضطر نبحث من خلال ال  mealsDetails لان الاوبجكت مش بيبقى فيه الداتا المطلوب ل
+
+//! عرض تفاصيل مكونات الوجبات الافتراضيه (ليس المقادير)
 function mealsDetails(currentMeal) {
+  searchContainer.classList.add("d-none");
   let cartona = `
   
   <div
@@ -524,7 +578,8 @@ function mealsDetails(currentMeal) {
   });
 }
 
-// وصفات الاكل
+//
+//! بتظهر مكونات الوجبات
 function createRecipes(currentMeal) {
   let cartona = "";
   let obj = Object.keys(currentMeal);
@@ -543,6 +598,8 @@ function createRecipes(currentMeal) {
 
   document.querySelector(".recipesItems").innerHTML = cartona;
 }
+
+//! بتظهر مقادير الوجبات
 function createOtherRecipes(currentMeal) {
   let cartona = "";
   let obj = Object.keys(currentMeal);
@@ -564,14 +621,13 @@ function createOtherRecipes(currentMeal) {
   document.querySelector(".recipesItems").innerHTML = cartona;
 }
 
-// وصفات الاكل
-
 categoryBtn.addEventListener("click", displayCatergory);
 areaBtn.addEventListener("click", displayArea);
 ingredientsBtn.addEventListener("click", displayIngrediants);
 searchBtn.addEventListener("click", displaySearch);
 contactBtn.addEventListener("click", displayContact);
 
+//! تشغيلها فى البدايه لانها بتظهر الوجبات الافتراضيه
 displayMeals();
 // displaySearch();
 // displayCatergory();
