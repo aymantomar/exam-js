@@ -1,0 +1,31 @@
+.spinn {
+}
+.spinnParent {
+  min-height: 100vh;
+  background-color: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.spinn {
+  transform: rotate(0deg);
+  transition: 0.5s;
+  animation-name: abdo;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+  animation-fill-mode: both;
+  width: fit-content;
+}
+.spinn i {
+  font-size: 6rem;
+  color: #fff;
+}
+@keyframes abdo {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

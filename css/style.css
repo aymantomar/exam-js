@@ -1,0 +1,152 @@
+* {
+  scroll-behavior: smooth;
+  text-decoration: none;
+  list-style: none;
+  text-transform: capitalize;
+}
+a {
+  display: inline-block;
+  text-decoration: none !important;
+}
+
+:root {
+  --main-color: rgb(6, 6, 6);
+
+  --gray-bg: rgb(247, 247, 247);
+  --transition: 0.5s;
+}
+body {
+  background-color: var(--main-color) !important;
+}
+
+.logo img {
+  max-width: 50px;
+}
+.sidebar-nav {
+  z-index: 11;
+  /* display: none !important; */
+}
+/* spinner */
+.spinnParent,
+.spinnOuter {
+  background-color: orangered !important;
+  z-index: 9;
+}
+.spinn,
+.spinnOut {
+  transform: rotate(0deg);
+  transition: 0.5s;
+  animation-name: abdo;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+  animation-fill-mode: both;
+  width: fit-content;
+}
+.spinn i {
+  font-size: 4rem;
+  color: #fff;
+}
+@keyframes abdo {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* spinner */
+
+.inputs {
+  text-transform: lowercase !important;
+}
+::placeholder {
+  color: #fff !important;
+}
+.fs-small {
+  font-size: 0.9rem !important;
+}
+.area,
+.ingrediant {
+  cursor: pointer;
+}
+
+.meal {
+  cursor: pointer;
+  overflow: hidden;
+  /* min-height: 260px !important; */
+}
+[name="inputs"] {
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  border: none;
+  outline: none;
+  border: 2px solid;
+  transition: 0.3s;
+}
+[name="inputs"]:focus {
+  border-color: blue !important;
+}
+input::placeholder {
+  color: gray !important;
+}
+#inputsSubmit {
+  width: fit-content;
+}
+.meal-info {
+  cursor: pointer;
+  transition: 0.5s;
+  width: calc(100% - 1.5rem) !important;
+  margin: 0 auto !important;
+  left: 0.75rem !important;
+}
+.meal:hover .meal-info {
+  top: 0 !important;
+}
+.meal img,
+.meal-info {
+  border-radius: 0.7rem !important;
+}
+.nav-header i,
+.siteLink a {
+  cursor: pointer;
+}
+
+.whiteColor {
+  background: rgba(255, 255, 255, 0.74) !important;
+}
+.card {
+  cursor: pointer;
+}
+.card:hover .FoodName {
+  top: 100%;
+  display: block;
+}
+
+.recipesItems {
+  padding: 0 !important;
+  column-gap: 0.5rem;
+}
+#closeBtn {
+  cursor: pointer;
+  height: 2rem;
+  width: 2rem;
+  border: 1px solid #fff;
+}
+
+.recipesItems li {
+  width: calc(95% / 5) !important;
+  padding: 0.5rem !important;
+}
+/* .meal img {
+  object-fit: cover;
+} */
+/* @media (min-width: 1200px) {
+}
+
+@media (max-width: 991.98px) {
+}
+
+@media (max-width: 575.98px) {
+} */
