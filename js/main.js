@@ -12,7 +12,6 @@ const otherSpinnParent = document.querySelector(".spinnOuter");
 let data = "";
 searchContainer.classList.add("d-none");
 
-// الفانكشن المسؤوله عن جلب الداتا  المختلفه لكل التطبيق
 async function getAll(apiLink, word) {
   try {
     toggleSpin();
@@ -26,7 +25,6 @@ async function getAll(apiLink, word) {
     toggleSpin();
   }
 }
-// الفانكشن المسؤوله عن جلب الداتا  المختلفه لكل التطبيق
 
 // the loading screen //
 function toggleOtherSpin() {
@@ -37,7 +35,6 @@ function toggleSpin() {
 }
 // the loading screen //
 
-//side nav bar الفانكشنز المسؤوله عن ال
 let navTabs = $(".sidebar-nav .navbar-tabs").outerWidth();
 
 $(window).on("load", () => {
@@ -95,9 +92,6 @@ allNavTabs.forEach((tab) => {
   tab.addEventListener("click", closeSideNav);
 });
 
-//side nav bar الفانكشنز المسؤوله عن ال
-
-//! الفانكشن التى تجلب الوجبات الافتراضيه الاوليه *//
 async function displayMeals() {
   let getMeals = await getAll(
     `https://www.themealdb.com/api/json/v1/1/search.php?s=`,
@@ -130,7 +124,6 @@ async function displayMeals() {
   getDetailsById(getMeals);
 }
 
-//!  الفانكشن المسؤوله عن اظهار حقول التسجيل وتأكيد المدخلات
 function displayContact() {
   searchContainer.classList.add("d-none");
 
@@ -270,7 +263,7 @@ function testInputs() {
       if (input.id == "age") {
         // console.log(`${input.id}Pattern`);
 
-        if (e.target.value < "150") {
+        if (e.target.value > "100") {
           document
             .querySelector(`#${input.id} +div`)
             .classList.replace("d-block", "d-none");
@@ -284,9 +277,7 @@ function testInputs() {
     });
   });
 }
-//!  الفانكشن المسؤوله عن اظهار حقول التسجيل وتأكيد المدخلات
 
-//! الفانكشن المسؤوله عن عرض الاقسام
 async function displayCatergory() {
   searchContainer.classList.add("d-none");
 
@@ -327,7 +318,6 @@ async function displayCatergory() {
   dataContainer.innerHTML = cartona;
 }
 
-//! الفانكشن المسؤوله عن عرض وجبات الدول المختلفه
 async function displayArea() {
   searchContainer.classList.add("d-none");
 
@@ -350,7 +340,6 @@ async function displayArea() {
   }
 }
 
-//! الفانكشن المسؤوله عن عرض المكونات الرئيسيه
 async function displayIngrediants() {
   searchContainer.classList.add("d-none");
   let getIngrediants = await getAll(
@@ -383,7 +372,6 @@ async function displayIngrediants() {
   dataContainer.innerHTML = cartona;
 }
 
-//! الفانكشن المسؤوله عن البحث
 async function displaySearch() {
   searchContainer.classList.remove("d-none");
 
@@ -441,7 +429,6 @@ function searchLetter() {
   });
 }
 
-//! id عرض تفاصيل الوجبه المختاره من خلال ال
 async function filterData(apiLink, strArea) {
   let getData = await getAll(
     `${apiLink}${strArea == "" ? "m" : strArea}`,
@@ -489,7 +476,6 @@ async function searchById(getData, i) {
   return data[0];
 }
 
-//! بتفرق ما بين الوجبات اللى بتظهر مقادير وبين الوجبات اللى فيها المكونات
 function getDetailsById(getMeals) {
   let meals = document.getElementsByName("meals");
 
@@ -516,11 +502,6 @@ function getDetailsById(getMeals) {
   }
 }
 
-//! id عرض تفاصيل الوجبه المختاره من خلال ال
-
-//ونظهر الداتا الجديده idفبنضطر نبحث من خلال ال  mealsDetails لان الاوبجكت مش بيبقى فيه الداتا المطلوب ل
-
-//! عرض تفاصيل مكونات الوجبات الافتراضيه (ليس المقادير)
 function mealsDetails(currentMeal) {
   searchContainer.classList.add("d-none");
   let cartona = `
@@ -578,8 +559,6 @@ function mealsDetails(currentMeal) {
   });
 }
 
-//
-//! بتظهر مكونات الوجبات
 function createRecipes(currentMeal) {
   let cartona = "";
   let obj = Object.keys(currentMeal);
@@ -599,7 +578,6 @@ function createRecipes(currentMeal) {
   document.querySelector(".recipesItems").innerHTML = cartona;
 }
 
-//! بتظهر مقادير الوجبات
 function createOtherRecipes(currentMeal) {
   let cartona = "";
   let obj = Object.keys(currentMeal);
@@ -627,7 +605,4 @@ ingredientsBtn.addEventListener("click", displayIngrediants);
 searchBtn.addEventListener("click", displaySearch);
 contactBtn.addEventListener("click", displayContact);
 
-//! تشغيلها فى البدايه لانها بتظهر الوجبات الافتراضيه
 displayMeals();
-// displaySearch();
-// displayCatergory();
